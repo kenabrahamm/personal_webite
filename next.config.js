@@ -4,9 +4,7 @@ const nextConfig = {
   // other configs...
 }
 
-console.log('Environment variables:', {
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  // Log other non-sensitive variables here
-});
+console.log('All environment variables:', Object.keys(process.env));
+console.log('NEXT_PUBLIC variables:', Object.keys(process.env).filter(key => key.startsWith('NEXT_PUBLIC_')));
 
 module.exports = nextConfig
