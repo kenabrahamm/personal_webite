@@ -8,11 +8,13 @@ export const env = createEnv({
     // Add other server-side env vars here
   },
   client: {
-    // Add client-side env vars here
+    NEXT_PUBLIC_APP_URL: z.string().url(),
+    // Add other client-side env vars here
   },
   runtimeEnv: {
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
     GH_API_URL: process.env.GH_API_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     // Add other env vars here
   },
 });
