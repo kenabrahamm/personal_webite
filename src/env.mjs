@@ -3,13 +3,13 @@ import { z } from "zod"
 
 export const env = createEnv({
   server: {
-    WAKATIME_API_KEY: z.string().startsWith("waka_"),
-    GH_API_URL: z.string().startsWith("https://"),
-    DISCORD_ID: z.string().min(1),
+    WAKATIME_API_KEY: z.string().startsWith("waka_").optional(),
+    GH_API_URL: z.string().startsWith("https://").optional(),
+    DISCORD_ID: z.string().min(1).optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
-    NEXT_PUBLIC_DISCORD_ID: z.string().min(1),
+    NEXT_PUBLIC_DISCORD_ID: z.string().min(1).optional(),
   },
   runtimeEnv: {
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,

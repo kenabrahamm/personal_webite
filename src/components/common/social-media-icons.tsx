@@ -4,25 +4,8 @@ import { siteConfig } from "@/config/site"
 
 export function SocialMediaIcons() {
   return (
-    <div className="flex">
-      <a
-        target="_blank"
-        href={siteConfig.links.github}
-        rel="noopener noreferrer"
-        aria-label="Github"
-        className="rounded px-4 py-3 text-xl hover:bg-accent hover:text-accent-foreground"
-      >
-        <FaGithub />
-      </a>
-      <a
-        target="_blank"
-        href={siteConfig.links.facebook}
-        rel="noopener noreferrer"
-        aria-label="Facebook"
-        className="rounded px-4 py-3 text-xl hover:bg-accent hover:text-accent-foreground"
-      >
-        <FaFacebook />
-      </a>
+    <div className="flex mt-6">
+   
       <a
         target="_blank"
         href={siteConfig.links.twitter}

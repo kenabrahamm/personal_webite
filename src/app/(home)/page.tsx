@@ -1,71 +1,97 @@
-import { Repo } from "@/types"
+import Link from 'next/link'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Introduction } from '@/components/introduction'
+import { SocialMediaIcons } from '@/components/common/social-media-icons'
+import Image from 'next/image'
 
-import { siteConfig } from "@/config/site"
-import { getRepo } from "@/lib/api/github"
-import { HeadingText } from "@/components/common/heading-text"
-import { SocialMediaIcons } from "@/components/common/social-media-icons"
-import { Introduction } from "@/components/introduction"
-import { ProjectsSkeleton } from "@/components/loaders/projects-skeleton"
-import { ProjectCard } from "@/components/projects/project-card"
+// Define your projects and blog posts
+const projects = [
+  { title: "No Couch, No TV", description: "Experimenting with an unconventional setup, my logic and experience.", slug: "space_around" },
+  { title: "Project 2", description: "Description of Project 2", slug: "project2" },
+  // Add more projects as needed
+]
 
-type RepoData = Repo[] | { error: string }
+const blogPosts = [
+  { 
+    title: "No Couch, No TV", 
+    description: "Experimenting with an unconventional setup, my logic and experience.", 
+    slug: "space_around", 
+    readTime: "5 min",
+    image: "/space_around_you/pic1.jpg"
+  },
+  { 
+    title: "Blog Post 2", 
+    description: "Summary of Blog Post 2", 
+    slug: "post2", 
+    readTime: "3 min",
+    image: "/images/blog-post-2.jpg"
+  },
+  // Add more blog posts as needed
+]
 
-export default async function Home() {
-  const data = (await getRepo()) as RepoData
-
-  if ("error" in data) {
-    return (
-      <main className="py-2">
-        <section className="py-4">
-          <Introduction />
-          <SocialMediaIcons />
-        </section>
-        <section className="space-y-4 py-4">
-          <div className="px-4">
-            <HeadingText>Projects</HeadingText>
-          </div>
-          <div className="flex flex-col items-end gap-4">
-            <div className="grid w-full grid-cols-1 md:grid-cols-2">
-              <ProjectsSkeleton />
-            </div>
-            <a
-              target="_blank"
-              href={`${siteConfig.links.github}?tab=repositories`}
-              className="px-4 text-sm underline"
-            >
-              See More...
-            </a>
-          </div>
-        </section>
-      </main>
-    )
-  }
-
+export default function Home() {
   return (
-    <main className="py-2">
-      <section className="py-4">
-        <Introduction />
-        <SocialMediaIcons />
-      </section>
-      <section className="space-y-4 py-4">
-        <div className="px-4">
-          <HeadingText>Projects</HeadingText>
-        </div>
-        <div className="flex flex-col items-end gap-4">
-          <div className="grid w-full grid-cols-1 md:grid-cols-2">
-            {data.map((project, index) => (
-              <ProjectCard key={index} project={project} />
+    <div className="container mx-auto px-4">
+      <Introduction/>
+      <SocialMediaIcons></SocialMediaIcons>
+      
+      <Tabs defaultValue="blog" className="w-full mt-10">
+        <TabsList>
+          <TabsTrigger value="projects">Projects</TabsTrigger>
+          <TabsTrigger value="blog">Writing</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="projects">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            {projects.map((project) => (
+              <Link key={project.slug} href={`/projects/${project.slug}`}>
+                <Card className="h-full hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle>{project.title}</CardTitle>
+                    <CardDescription>{project.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <p className="text-sm text-blue-600">Learn more →</p>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
-          <a
-            target="_blank"
-            href={`${siteConfig.links.github}?tab=repositories`}
-            className="px-4 text-sm underline"
-          >
-            See More...
-          </a>
-        </div>
-      </section>
-    </main>
+        </TabsContent>
+        
+        <TabsContent value="blog">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {blogPosts.map((post) => (
+              <Link key={post.slug} href={`/writing/${post.slug}`}>
+                <Card className="h-full hover:shadow-lg transition-shadow">
+                  <div className="relative w-full h-48">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      className="rounded-t-lg"
+                    />
+                  </div>
+                  <CardHeader>
+                    <CardTitle>{post.title}</CardTitle>
+                    <CardDescription>{post.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <button className="px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors rounded-lg">
+                      {post.readTime} read
+                    </button>
+                  </CardContent>
+                  <CardFooter>
+                    <p className="text-sm">Read more →</p>
+                  </CardFooter>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
